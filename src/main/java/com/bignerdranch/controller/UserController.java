@@ -1,51 +1,43 @@
 package com.bignerdranch.controller;
 
-import com.bignerdranch.assembler.UserAssembler;
-import com.bignerdranch.exception.ControllerType;
-import com.bignerdranch.exception.NotFoundException;
 import com.bignerdranch.model.User;
-import com.bignerdranch.respository.UserRepository;
+import com.bignerdranch.object.UserUpdateRequest;
+import com.bignerdranch.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.EntityModel;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class UserController {
 
     @Autowired
-    private UserRepository repo;
+    private UserService service;
 
-    @Autowired
-    private UserAssembler assembler;
 
     @GetMapping("/users/{id}")
-    public EntityModel<User> readOne(@PathVariable Long id){
-        User user = repo.findById(id)
-                .orElseThrow(() -> new NotFoundException(ControllerType.USER, id));
-        return assembler.toModel(user);
+    public User readOne(@PathVariable Long id){
+        return service.readOne(id);
     }
 
     @GetMapping("/users")
-    public CollectionModel<EntityModel<User>> readAll(){
-        return null;
+    public List<User> readAll(){
+        return service.readAll();
     }
 
     @PostMapping("/users")
-    public ResponseEntity create(@RequestBody User newValue){
-        return null;
+    public User create(@RequestBody UserUpdateRequest request){
+        return service.create(request);
     }
 
     @PutMapping("/users/{id}")
-    public ResponseEntity update(@RequestBody User toUpdate, @PathVariable Long id){
-        return null;
+    public User update(@RequestBody UserUpdateRequest request, @PathVariable Long id){
+        return service.update(request, id);
     }
 
     @DeleteMapping("/users/{id}")
-    public ResponseEntity delete(@PathVariable Long id){
-        return null;
+    public void delete(@PathVariable Long id){
+        service.delete(id);
     }
-    
 
 }

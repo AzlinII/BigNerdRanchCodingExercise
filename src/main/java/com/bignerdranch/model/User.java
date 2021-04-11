@@ -1,12 +1,10 @@
 package com.bignerdranch.model;
 
-import org.springframework.hateoas.RepresentationModel;
-
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-public class User extends RepresentationModel<User> {
+public class User {
 
     @Id
     @GeneratedValue
@@ -15,7 +13,7 @@ public class User extends RepresentationModel<User> {
     private String email;
 
     @ManyToOne
-    @JoinColumn(name="expertise_id", nullable=true)
+    @JoinColumn(name="expertise_id")
     private Expertise expertise;
 
     public User(){}
